@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="~{fragments.html :: head (title='Login')}"></head>
+  <body class="bg-light">
+    <div class="d-flex vh-100 align-items-center justify-content-center">
+      <div class="card shadow p-4" style="min-width: 350px">
+        <h3 class="mb-3 text-center">Login</h3>
+
+        <form action="/login" method="post">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              name="username"
+              type="text"
+              class="form-control"
+              id="username"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              name="password"
+              type="password"
+              class="form-control"
+              id="password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+
+          <div class="text-center mt-3">
+            <a href="/register" class="btn btn-outline-primary w-100"
+              >Don't have an account? Register</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
