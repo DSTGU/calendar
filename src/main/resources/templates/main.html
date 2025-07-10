@@ -4,22 +4,21 @@
 
   <body>
     <div class="container">
-      <div class="dropdown position-fixed end-0 top-0 p-3">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
+      <div class="d-flex flex-wrap pt-5">
+        <div
+          class="p-2 text-left border"
+          style="width: 14.2%"
+          th:each="day : ${days}"
         >
-          <i class="fa-solid fa-user"></i>
-        </button>
-        <ul class="dropdown-menu">
-          <li>
-            <p class="dropdown-item fw-semibold" th:text="${user.login}"></p>
-          </li>
-          <li><a class="dropdown-item" href="/logout">Wyloguj</a></li>
-        </ul>
+          <p
+            th:text="${day.date.getDayOfMonth}"
+            th:class="${day.textColor}"
+          ></p>
+        </div>
       </div>
     </div>
+    <div
+      th:replace="~{fragments.html :: userMenu (userName=${user.login})}"
+    ></div>
   </body>
 </html>
