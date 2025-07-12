@@ -19,6 +19,7 @@ public class CalendarService {
 
     public List<DayDTO> createDays(Calendar calendar, ViewType viewType, LocalDate date) {
         //Todo: obsługa kalendarza
+        //Weekify?
         
         if (date == null) {
             date = LocalDate.now();

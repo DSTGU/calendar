@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html class="h-100">
   <head th:replace="~{fragments.html :: head (title='Strona główna')}"></head>
 
-  <body>
-    <div class="container">
-      <div class="d-flex flex-wrap pt-5">
-        <div
-          class="p-2 text-left border"
-          style="width: 14.2%"
-          th:each="day : ${days}"
-        >
-          <p
-            th:text="${day.date.getDayOfMonth}"
-            th:class="${day.textColor}"
-          ></p>
-        </div>
-      </div>
+  <body class="h-100">
+    <div class="h-100 d-flex flex-row">
+      <div id="sidebar" class="w-25">aaa</div>
+      <div id="calendar-pane" class="h-100 p-5"></div>
     </div>
     <div
       th:replace="~{fragments.html :: userMenu (userName=${user.login})}"
     ></div>
   </body>
+
+  <script>
+    function loadMonth(date) {
+      fetch(`/ajax/calendar?date=${date.toISOString().substring(0, 10)}`)
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("calendar-pane").innerHTML = html;
+        });
+    }
+
+    const date = new Date();
+    loadMonth(date);
+  </script>
 </html>

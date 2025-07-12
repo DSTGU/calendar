@@ -1,0 +1,9 @@
+<div th:fragment="month" class="d-flex flex-wrap h-100">
+  <div
+    class="p-2 text-left border"
+    style="width: 14.2%; height: 15%"
+    th:each="day : ${days}"
+  >
+    <p th:text="${day.date.getDayOfMonth}" th:class="${day.textColor}"></p>
+  </div>
+</div>

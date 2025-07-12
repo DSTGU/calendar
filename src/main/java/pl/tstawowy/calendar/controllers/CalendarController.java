@@ -2,6 +2,7 @@ package pl.tstawowy.calendar.controllers;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.tstawowy.calendar.entities.User;
+import pl.tstawowy.calendar.enums.ViewType;
 import pl.tstawowy.calendar.repositories.UserRepository;
 import pl.tstawowy.calendar.services.CalendarService;
 import pl.tstawowy.calendar.services.UserService;
@@ -37,11 +40,15 @@ public class CalendarController {
     }
 
     @GetMapping("/")
-    public String landingPage(Model model) {
-
-        LocalDate date = LocalDate.now().minusMonths(2);
-        model.addAttribute("days", calendarService.createDays(null, null, date));
+    public String landingPage(Model model, @RequestParam(required = false) LocalDate date) {
         return "main";
     }
+
+    @GetMapping("/ajax/calendar")
+    public String getMethodName(Model model, @RequestParam(required = false) LocalDate date) {
+        model.addAttribute("days", calendarService.createDays(null, ViewType.MONTH, date));
+        return "fragments/calendar :: month";
+    }
+    
     
 }
