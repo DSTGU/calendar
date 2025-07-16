@@ -2,9 +2,10 @@ package pl.tstawowy.calendar.controllers;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,8 @@ import pl.tstawowy.calendar.services.UserService;
 @Controller
 public class CalendarController {
     
+    final Logger logger = LoggerFactory.getLogger(CalendarController.class);
+
     @Autowired
     UserRepository userRepository;
 
@@ -45,9 +48,22 @@ public class CalendarController {
     }
 
     @GetMapping("/ajax/calendar")
-    public String getMethodName(Model model, @RequestParam(required = false) LocalDate date) {
-        model.addAttribute("days", calendarService.createDays(null, ViewType.MONTH, date));
-        return "fragments/calendar :: month";
+    public String getMethodName(Model model, @RequestParam(required = false) LocalDate date, @RequestParam(defaultValue = "MONTH")ViewType viewType) {
+
+        logger.info("VT: {}", viewType);
+
+
+        switch (viewType) {
+            case ViewType.WEEK:
+                model.addAttribute("days", calendarService.createDays(null, viewType, date));
+                return "fragments/calendar :: week";
+            default:
+                model.addAttribute("weeks", calendarService.createWeeks(null, viewType, date));
+                return "fragments/calendar :: month";
+        }
+        
+        
+
     }
     
     

@@ -1,9 +1,48 @@
-<div th:fragment="month" class="d-flex flex-wrap h-100">
-  <div
-    class="p-2 text-left border"
-    style="width: 14.2%; height: 15%"
-    th:each="day : ${days}"
-  >
-    <p th:text="${day.date.getDayOfMonth}" th:class="${day.textColor}"></p>
+<div th:fragment="month" class="card h-100">
+  <div class="d-flex flex-wrap h-100 card-body">
+    <div class="row text-center fw-bold border w-100 p-0 m-1 rounded-2">
+      <div class="p-2 col" style="height: 5%">M</div>
+      <div class="p-2 col" style="height: 5%">T</div>
+      <div class="p-2 col" style="height: 5%">W</div>
+      <div class="p-2 col" style="height: 5%">T</div>
+      <div class="p-2 col" style="height: 5%">F</div>
+      <div class="p-2 col" style="height: 5%">S</div>
+      <div class="p-2 col" style="height: 5%">S</div>
+    </div>
+    <div
+      class="row text-center border w-100 p-0 m-1 rounded-2"
+      th:each="week : ${weeks}"
+      th:attr="onclick=|loadWeek('${week.days.get(0).date}')|"
+    >
+      <div class="col" th:each="day : ${week.days}">
+        <p
+          th:text="${day.date.getDayOfMonth}"
+          th:class="${day.textColor + ' fw-light'}"
+        ></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="week" class="card h-100">
+  <div class="d-flex flex-wrap h-100 card-body">
+    <div class="row text-center fw-bold border w-100 p-0 m-1 rounded-2">
+      <div class="p-2 col" style="height: 5%">M</div>
+      <div class="p-2 col" style="height: 5%">T</div>
+      <div class="p-2 col" style="height: 5%">W</div>
+      <div class="p-2 col" style="height: 5%">T</div>
+      <div class="p-2 col" style="height: 5%">F</div>
+      <div class="p-2 col" style="height: 5%">S</div>
+      <div class="p-2 col" style="height: 5%">S</div>
+    </div>
+    <div
+      class="col text-center border w-100 p-0 m-1 rounded-2"
+      th:each="day : ${days}"
+    >
+      <p
+        th:text="${day.date.getDayOfMonth}"
+        th:class="${day.textColor + ' fw-light'}"
+      ></p>
+    </div>
   </div>
 </div>

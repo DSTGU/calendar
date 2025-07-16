@@ -23,5 +23,13 @@
 
     const date = new Date();
     loadMonth(date);
+
+    const loadWeek = (date) => {
+      fetch(`/ajax/calendar?date=${date}&viewType=WEEK`)
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("calendar-pane").innerHTML = html;
+        });
+    };
   </script>
 </html>
