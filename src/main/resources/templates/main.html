@@ -21,15 +21,41 @@
         });
     }
 
-    const date = new Date();
-    loadMonth(date.toISOString().substring(0, 10));
+    const reset = () => {
+      const date = new Date();
+      loadMonth(date.toISOString().substring(0, 10));
+    };
+
+    reset();
 
     const loadWeek = (date) => {
       fetch(`/ajax/calendar?date=${date}&viewType=WEEK`)
-        .then((response) => response.text())
+        .then((response) => {
+          if (!response.ok) {
+            reset();
+          }
+
+          return response.text();
+        })
         .then((html) => {
           document.getElementById("calendar-pane").innerHTML = html;
-        });
+        })
+        .catch(() => reset());
+    };
+
+    const loadDay = (date) => {
+      fetch(`/ajax/calendar?date=${date}&viewType=DAY`)
+        .then((response) => {
+          if (!response.ok) {
+            reset();
+          }
+
+          return response.text();
+        })
+        .then((html) => {
+          document.getElementById("calendar-pane").innerHTML = html;
+        })
+        .catch(() => reset());
     };
   </script>
 </html>
