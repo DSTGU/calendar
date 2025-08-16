@@ -1,8 +1,27 @@
 <div th:fragment="month" class="card shadow-sm h-100 border-0 rounded-3">
   <div
-    class="card-header bg-primary text-white text-center fw-bold rounded-top"
+    class="card-header bg-primary text-white text-center fw-bold rounded-top d-flex flex-row justify-content-between align-items-center"
   >
-    <i class="fa-solid fa-calendar"></i> Calendar
+    <button
+      type="button"
+      class="btn btn-sm btn-light"
+      th:attr="onclick=|loadMonth('${month.previousMonth()}')|"
+    >
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <div class="d-flex flex-row gap-2">
+      <span class="fw-bold"> <i class="fa-solid fa-calendar"></i> </span
+      >Calendar
+      <div th:text="${month.name}"></div>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-sm btn-light"
+      th:attr="onclick=|loadMonth('${month.nextMonth()}')|"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
   </div>
 
   <div class="card-body p-0 d-flex flex-column h-100">
@@ -72,7 +91,7 @@
       class="btn btn-sm btn-light"
       th:attr="onclick=|loadMonth('${days.get(0).date}')|"
     >
-      <i class="fa-solid fa-arrow-left"></i> Back
+      <i class="fa-solid fa-arrow-left"></i>
     </button>
     <span class="fw-bold">
       <i class="fa-solid fa-calendar"></i> Week View

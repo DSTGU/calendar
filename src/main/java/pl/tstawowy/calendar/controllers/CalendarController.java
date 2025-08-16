@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.tstawowy.calendar.entities.Month;
 import pl.tstawowy.calendar.entities.User;
 import pl.tstawowy.calendar.enums.ViewType;
 import pl.tstawowy.calendar.repositories.UserRepository;
@@ -52,12 +53,12 @@ public class CalendarController {
 
         logger.info("VT: {}", viewType);
 
-
         switch (viewType) {
             case ViewType.WEEK:
                 model.addAttribute("days", calendarService.createDays(null, viewType, date));
                 return "fragments/calendar :: week";
             default:
+                model.addAttribute("month", new Month(date));
                 model.addAttribute("weeks", calendarService.createWeeks(null, viewType, date));
                 return "fragments/calendar :: month";
         }
