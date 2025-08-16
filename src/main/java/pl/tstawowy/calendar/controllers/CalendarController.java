@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,11 +39,9 @@ public class CalendarController {
     CalendarService calendarService;
 
     @ModelAttribute
-    void addLoggedUser(Model model, Principal principal) {
-        Optional<User> user = userRepository.findByLogin(principal.getName());
-        if (user.isPresent()) {
-            model.addAttribute("user", user.get());
-        }
+    void addLoggedUser(Model model, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("user", user);
     }
 
     @GetMapping("/")
@@ -52,8 +51,6 @@ public class CalendarController {
 
     @GetMapping("/ajax/calendar")
     public String getMethodName(Model model, @RequestParam(required = false) LocalDate date, @RequestParam(defaultValue = "MONTH")ViewType viewType) {
-
-        logger.info("VT: {}", viewType);
 
         switch (viewType) {
             case ViewType.DAY:
