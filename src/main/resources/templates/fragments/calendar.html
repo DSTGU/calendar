@@ -1,48 +1,133 @@
-<div th:fragment="month" class="card h-100">
-  <div class="d-flex flex-wrap h-100 card-body">
-    <div class="row text-center fw-bold border w-100 p-0 m-1 rounded-2">
-      <div class="p-2 col" style="height: 5%">M</div>
-      <div class="p-2 col" style="height: 5%">T</div>
-      <div class="p-2 col" style="height: 5%">W</div>
-      <div class="p-2 col" style="height: 5%">T</div>
-      <div class="p-2 col" style="height: 5%">F</div>
-      <div class="p-2 col" style="height: 5%">S</div>
-      <div class="p-2 col" style="height: 5%">S</div>
+<div th:fragment="month" class="card shadow-sm h-100 border-0 rounded-3">
+  <div
+    class="card-header bg-primary text-white text-center fw-bold rounded-top"
+  >
+    <i class="fa-solid fa-calendar"></i> Calendar
+  </div>
+
+  <div class="card-body p-0 d-flex flex-column h-100">
+    <!-- Weekdays header -->
+    <div class="calendar-header text-center fw-semibold border-bottom">
+      <div class="text-muted py-2">M</div>
+      <div class="text-muted py-2">T</div>
+      <div class="text-muted py-2">W</div>
+      <div class="text-muted py-2">T</div>
+      <div class="text-muted py-2">F</div>
+      <div class="text-muted py-2">S</div>
+      <div class="text-muted py-2">S</div>
     </div>
-    <div
-      class="row text-center border w-100 p-0 m-1 rounded-2"
-      th:each="week : ${weeks}"
-      th:attr="onclick=|loadWeek('${week.days.get(0).date}')|"
-    >
-      <div class="col" th:each="day : ${week.days}">
-        <p
+
+    <!-- Weeks -->
+    <div class="flex-grow-1 d-flex flex-column">
+      <div
+        class="calendar-week flex-fill"
+        th:each="week : ${weeks}"
+        th:attr="onclick=|loadWeek('${week.days.get(0).date}')|"
+        style="cursor: pointer"
+      >
+        <div
+          class="day-cell border"
+          th:each="day : ${week.days}"
           th:text="${day.date.getDayOfMonth}"
-          th:class="${day.textColor + ' fw-light'}"
-        ></p>
+          th:classappend="${day.textColor}"
+        ></div>
       </div>
     </div>
   </div>
+
+  <style>
+    /* Force 7 equal-width columns */
+    .calendar-header,
+    .calendar-week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    .calendar-week {
+      flex: 1; /* each week takes equal vertical height */
+    }
+
+    .day-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      transition: background-color 0.2s, font-weight 0.2s;
+    }
+
+    .day-cell:hover {
+      background-color: #f0f4ff;
+      font-weight: 600;
+    }
+  </style>
 </div>
 
-<div th:fragment="week" class="card h-100">
-  <div class="d-flex flex-wrap h-100 card-body">
-    <div class="row text-center fw-bold border w-100 p-0 m-1 rounded-2">
-      <div class="p-2 col" style="height: 5%">M</div>
-      <div class="p-2 col" style="height: 5%">T</div>
-      <div class="p-2 col" style="height: 5%">W</div>
-      <div class="p-2 col" style="height: 5%">T</div>
-      <div class="p-2 col" style="height: 5%">F</div>
-      <div class="p-2 col" style="height: 5%">S</div>
-      <div class="p-2 col" style="height: 5%">S</div>
-    </div>
-    <div
-      class="col text-center border w-100 p-0 m-1 rounded-2"
-      th:each="day : ${days}"
+<div th:fragment="week" class="card shadow-sm h-100 border-0 rounded-3">
+  <!-- Card header with back button -->
+  <div
+    class="card-header d-flex align-items-center justify-content-between bg-primary text-white rounded-top"
+  >
+    <button
+      type="button"
+      class="btn btn-sm btn-light"
+      th:attr="onclick=|loadMonth('${days.get(0).date}')|"
     >
-      <p
-        th:text="${day.date.getDayOfMonth}"
-        th:class="${day.textColor + ' fw-light'}"
-      ></p>
+      <i class="fa-solid fa-arrow-left"></i> Back
+    </button>
+    <span class="fw-bold">
+      <i class="fa-solid fa-calendar"></i> Week View
+    </span>
+    <div></div>
+    <!-- spacer -->
+  </div>
+
+  <div class="card-body p-0 d-flex flex-column h-100">
+    <!-- Days grid -->
+    <div class="calendar-week-view flex-grow-1">
+      <div class="day-column border" th:each="day : ${days}">
+        <!-- Day header -->
+        <div
+          class="day-header text-center fw-semibold border-bottom py-2 text-muted"
+        >
+          <span th:text="${#temporals.dayOfWeekName(day.date)}"></span>
+        </div>
+
+        <!-- Day content -->
+        <div class="day-content p-2 text-center">
+          <p
+            th:text="${day.date.getDayOfMonth}"
+            th:class="${day.textColor + ' fw-light'}"
+          ></p>
+          <!-- later you can add events/tasks here -->
+        </div>
+      </div>
     </div>
   </div>
+
+  <style>
+    .calendar-week-view {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr); /* 7 equal columns */
+      height: 100%;
+    }
+
+    .day-column {
+      display: flex;
+      flex-direction: column;
+      min-width: 0; /* fixes flex overflow in some browsers */
+    }
+
+    .day-header {
+      background-color: #f8f9fa;
+      font-size: 0.9rem;
+    }
+
+    .day-content {
+      flex: 1; /* fill remaining vertical space */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  </style>
 </div>

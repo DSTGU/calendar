@@ -4,8 +4,8 @@
 
   <body class="h-100">
     <div class="h-100 d-flex flex-row">
-      <div id="sidebar" class="w-25">aaa</div>
-      <div id="calendar-pane" class="h-100 p-5"></div>
+      <div id="sidebar" class="w-25">sidebar</div>
+      <div id="calendar-pane" class="h-100 p-5 w-100"></div>
     </div>
     <div
       th:replace="~{fragments.html :: userMenu (userName=${user.login})}"
@@ -14,7 +14,7 @@
 
   <script>
     function loadMonth(date) {
-      fetch(`/ajax/calendar?date=${date.toISOString().substring(0, 10)}`)
+      fetch(`/ajax/calendar?date=${date}`)
         .then((response) => response.text())
         .then((html) => {
           document.getElementById("calendar-pane").innerHTML = html;
@@ -22,7 +22,7 @@
     }
 
     const date = new Date();
-    loadMonth(date);
+    loadMonth(date.toISOString().substring(0, 10));
 
     const loadWeek = (date) => {
       fetch(`/ajax/calendar?date=${date}&viewType=WEEK`)
