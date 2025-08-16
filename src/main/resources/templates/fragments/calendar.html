@@ -93,9 +93,11 @@
     >
       <i class="fa-solid fa-arrow-left"></i>
     </button>
-    <span class="fw-bold">
-      <i class="fa-solid fa-calendar"></i> Week View
-    </span>
+    <div class="d-flex flex-row gap-2">
+      <span class="fw-bold"> <i class="fa-solid fa-calendar"></i> </span
+      >Calendar
+      <div th:text="${week.name}"></div>
+    </div>
     <div></div>
     <!-- spacer -->
   </div>

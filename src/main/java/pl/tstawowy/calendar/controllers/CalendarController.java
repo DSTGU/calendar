@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.tstawowy.calendar.entities.Month;
 import pl.tstawowy.calendar.entities.User;
+import pl.tstawowy.calendar.entities.Week;
 import pl.tstawowy.calendar.enums.ViewType;
 import pl.tstawowy.calendar.repositories.UserRepository;
 import pl.tstawowy.calendar.services.CalendarService;
@@ -55,6 +56,7 @@ public class CalendarController {
 
         switch (viewType) {
             case ViewType.WEEK:
+                model.addAttribute("week", new Week(date));
                 model.addAttribute("days", calendarService.createDays(null, viewType, date));
                 return "fragments/calendar :: week";
             default:
