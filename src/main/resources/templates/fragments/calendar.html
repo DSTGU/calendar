@@ -10,8 +10,8 @@
       <i class="fa-solid fa-chevron-left"></i>
     </button>
     <div class="d-flex flex-row gap-2">
-      <span class="fw-bold"> <i class="fa-solid fa-calendar"></i> </span
-      >Calendar
+      <span class="fw-bold"> <i class="fa-solid fa-calendar"></i> </span>
+      Calendar
       <div th:text="${month.name}"></div>
     </div>
 
@@ -26,14 +26,17 @@
 
   <div class="card-body p-0 d-flex flex-column h-100">
     <!-- Weekdays header -->
-    <div class="calendar-header text-center fw-semibold border-bottom">
-      <div class="text-muted py-2">M</div>
-      <div class="text-muted py-2">T</div>
-      <div class="text-muted py-2">W</div>
-      <div class="text-muted py-2">T</div>
-      <div class="text-muted py-2">F</div>
-      <div class="text-muted py-2">S</div>
-      <div class="text-muted py-2">S</div>
+    <div
+      class="calendar-header text-center fw-semibold border-bottom text-muted"
+    >
+      <div class="day-column border" th:each="day : ${weeks.get(0).days}">
+        <!-- Day header -->
+        <div
+          class="day-header text-center fw-semibold border-bottom py-2 text-muted"
+        >
+          <span th:text="${#temporals.dayOfWeekName(day.date)}"></span>
+        </div>
+      </div>
     </div>
 
     <!-- Weeks -->
@@ -45,7 +48,7 @@
         style="cursor: pointer"
       >
         <div
-          class="day-cell border"
+          class="day-cell border text-dark fw-light"
           th:each="day : ${week.days}"
           th:text="${day.date.getDayOfMonth}"
           th:classappend="${day.textColor}"
@@ -62,6 +65,11 @@
       grid-template-columns: repeat(7, 1fr);
     }
 
+    .calendar-header {
+      background-color: #f8f9fa;
+      font-size: 0.9rem;
+    }
+
     .calendar-week {
       flex: 1; /* each week takes equal vertical height */
     }
@@ -70,7 +78,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
       transition: background-color 0.2s, font-weight 0.2s;
     }
 
@@ -97,14 +104,14 @@
       <button
         type="button"
         class="btn btn-sm btn-light"
-        th:attr="onclick=|loadMonth('${week.startDate}')|"
+        th:attr="onclick=|loadMonth('${week.monthDate}')|"
       >
         <i class="fa-solid fa-arrow-left"></i>
       </button>
     </div>
-    <div class="d-flex flex-row gap-2">
-      <span class="fw-bold"> <i class="fa-solid fa-calendar"></i> </span
-      >Calendar
+    <div class="d-flex flex-row gap-2 fw-bold">
+      <i class="fa-solid fa-calendar"></i>
+      Calendar
       <div th:text="${week.name}"></div>
     </div>
     <button

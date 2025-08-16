@@ -1,9 +1,7 @@
 package pl.tstawowy.calendar.entities;
 
 import java.time.LocalDate;
-import java.time.Year;
 import java.time.format.TextStyle;
-import java.util.List;
 import java.util.Locale;
 
 import lombok.AllArgsConstructor;

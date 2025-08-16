@@ -37,11 +37,22 @@ public class Week {
 
     public String getName() {
 
-        if (!startDate.getMonth().equals(startDate.plusDays(6))) {
+        if (!startDate.getMonth().equals(startDate.plusDays(6).getMonth())) {
+            String startMonth =  startDate.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault());
+            String endMonth = startDate.plusDays(6).getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault());
+            
+            return startMonth + "/" + endMonth + " " + startDate.getYear();
         }
 
         return startDate.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault()) + " " + startDate.getYear();
 
+    }
+
+    public LocalDate getMonthDate() {
+        if (month == null) {
+            return startDate;
+        }
+        return month.getStartDate();
     }
 
     public LocalDate previousWeek() {

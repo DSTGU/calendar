@@ -56,7 +56,7 @@ public class CalendarController {
 
         switch (viewType) {
             case ViewType.WEEK:
-                model.addAttribute("week", new Week(date));
+                model.addAttribute("week", new Week(date, new Month(date)));
                 model.addAttribute("days", calendarService.createDays(null, viewType, date));
                 return "fragments/calendar :: week";
             default:
