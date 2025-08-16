@@ -19,13 +19,20 @@ import lombok.ToString;
 public class Week {
  
     Calendar calendar;
+    Month month;
     List<Day> days;
     LocalDate startDate;
 
     public Week(LocalDate startDate) {
-
         int dow = startDate.getDayOfWeek().getValue();
         this.startDate = startDate.minusDays(dow - 1);
+    }
+
+    public Week(LocalDate startDate, Month month) {
+        int dow = startDate.getDayOfWeek().getValue();
+        this.startDate = startDate.minusDays(dow - 1);
+
+        this.month = month;
     }
 
     public String getName() {
@@ -35,5 +42,13 @@ public class Week {
 
         return startDate.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault()) + " " + startDate.getYear();
 
+    }
+
+    public LocalDate previousWeek() {
+        return startDate.minusDays(7);
+    }
+
+    public LocalDate nextWeek() {
+        return startDate.plusDays(7);
     }
 }

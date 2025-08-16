@@ -86,20 +86,34 @@
   <div
     class="card-header d-flex align-items-center justify-content-between bg-primary text-white rounded-top"
   >
-    <button
-      type="button"
-      class="btn btn-sm btn-light"
-      th:attr="onclick=|loadMonth('${days.get(0).date}')|"
-    >
-      <i class="fa-solid fa-arrow-left"></i>
-    </button>
+    <div class="d-flex flex-row gap-2">
+      <button
+        type="button"
+        class="btn btn-sm btn-light"
+        th:attr="onclick=|loadWeek('${week.previousWeek}')|"
+      >
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-light"
+        th:attr="onclick=|loadMonth('${week.startDate}')|"
+      >
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </div>
     <div class="d-flex flex-row gap-2">
       <span class="fw-bold"> <i class="fa-solid fa-calendar"></i> </span
       >Calendar
       <div th:text="${week.name}"></div>
     </div>
-    <div></div>
-    <!-- spacer -->
+    <button
+      type="button"
+      class="btn btn-sm btn-light"
+      th:attr="onclick=|loadWeek('${week.nextWeek}')|"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
   </div>
 
   <div class="card-body p-0 d-flex flex-column h-100">
