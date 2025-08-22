@@ -1,8 +1,6 @@
 package pl.tstawowy.calendar.controllers;
 
-import java.security.Principal;
 import java.time.LocalDate;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

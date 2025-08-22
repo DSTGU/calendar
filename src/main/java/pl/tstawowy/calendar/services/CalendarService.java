@@ -47,9 +47,6 @@ public class CalendarService {
         int dow = date.getDayOfWeek().getValue();
         LocalDate firstDay = date.minusDays(dow - 1);
         
-        //LocalDate firstOfMonth = LocalDate.of(year, month, 1);
-        //LocalDate firstInCalendar = firstOfMonth.minusDays(firstOfMonth.getDayOfWeek().getValue() - 1);
-        
         List<DayDTO> days = Stream.iterate(firstDay, iDate -> iDate.plusDays(1))
         .limit(7).map(iDate -> new DayDTO(iDate, firstDay.getMonth())).toList();
         

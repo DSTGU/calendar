@@ -3,13 +3,10 @@
   <head th:replace="~{fragments.html :: head (title='Strona główna')}"></head>
 
   <body class="h-100">
-    <div class="h-100 d-flex flex-row">
-      <div id="sidebar" class="w-25">sidebar</div>
-      <div id="calendar-pane" class="h-100 p-5 w-100"></div>
+    <div class="h-100 d-flex flex-row align-items-stretch">
+      <div th:replace="~{fragments.html :: sidebar (user=${user})}"></div>
+      <div id="calendar-pane" class="p-3 w-100"></div>
     </div>
-    <div
-      th:replace="~{fragments.html :: userMenu (userName=${user.login})}"
-    ></div>
   </body>
 
   <script>
