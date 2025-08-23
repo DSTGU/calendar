@@ -1,0 +1,97 @@
+<div th:fragment="sidebar (user)" class="collapse show w-25 m-3" id="sidebar">
+  <div class="card h-100">
+    <div
+      class="card-header bg-primary text-white text-center fw-bold rounded-top d-flex flex-row justify-content-between"
+    >
+      <div class="d-flex flex-row align-items-center gap-2">
+        <i class="fa-solid fa-calendar"></i>
+        <div th:text="Kalendarz"></div>
+      </div>
+
+      <!-- <button
+        class="btn btn-sm btn-light"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#sidebar"
+        aria-expanded="true"
+        aria-controls="sidebar"
+      >
+        <i class="fa-solid fa-chevron-left"></i>
+      </button> -->
+    </div>
+
+    <div class="card-body d-flex flex-column justify-content-between">
+      <ul class="w-100 d-flex flex-column gap-3 align-items-stretch ps-0">
+        <li
+          class="list-group-item d-flex flex-row justify-content-between align-items-center hover"
+        >
+          <i class="fa-solid fa-user"></i>
+          <div class="fw-semibold" th:text="${user.login}"></div>
+        </li>
+
+        <hr />
+
+        <li
+          class="list-group-item d-flex flex-row justify-content-between align-items-center"
+          th:each="calendar : ${calendars}"
+        >
+          <i
+            class="fa-solid fa-calendar"
+            th:style="'color:#' + ${calendar.color}"
+          ></i>
+          <div class="" th:text="${calendar.name}"></div>
+        </li>
+        <!-- <button type="button" class="btn btn-primary" >
+  Launch demo modal
+</button> -->
+        <li
+          class="list-group-item d-flex flex-row justify-content-between align-items-center"
+          data-bs-toggle="modal"
+          data-bs-target="#manageCalendarsModal"
+        >
+          <i class="fa-solid fa-cog"></i>
+          <div>Zarządzaj kalendarzami</div>
+        </li>
+      </ul>
+      <a
+        class="list-group-item d-flex flex-row justify-content-between align-items-center text-decoration-none"
+        href="/logout"
+      >
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        Wyloguj
+      </a>
+    </div>
+  </div>
+
+  <div th:replace="~{fragments/sidebar.html :: manageCalendarsModal}"></div>
+</div>
+
+<div
+  th:fragment="manageCalendarsModal"
+  id="manageCalendarsModal"
+  class="modal fade"
+  tabindex="-1"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

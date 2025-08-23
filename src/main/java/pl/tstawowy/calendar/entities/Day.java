@@ -30,8 +30,6 @@ public class Day {
     LocalDate date;
     String color;
 
-
-
     public Day(LocalDate date) {
         this.date = date;
     }

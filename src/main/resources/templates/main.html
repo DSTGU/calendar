@@ -1,58 +1,68 @@
 <!DOCTYPE html>
 <html class="h-100">
-  <head th:replace="~{fragments.html :: head (title='Strona główna')}"></head>
+  <head
+    th:replace="~{fragments/head.html :: head (title='Strona główna')}"
+  ></head>
 
   <body class="h-100">
     <div class="h-100 d-flex flex-row align-items-stretch">
-      <div th:replace="~{fragments.html :: sidebar (user=${user})}"></div>
+      <div
+        th:replace="~{fragments/sidebar.html :: sidebar (user=${user})}"
+      ></div>
       <div id="calendar-pane" class="p-3 w-100"></div>
     </div>
   </body>
 
   <script>
-    function loadMonth(date) {
-      fetch(`/ajax/calendar?date=${date}`)
-        .then((response) => response.text())
-        .then((html) => {
-          document.getElementById("calendar-pane").innerHTML = html;
-        });
+    async function ajaxManager(element, baseUrl, args) {
+      try {
+        // Construct query string from args object
+        const query = new URLSearchParams(args).toString();
+        const url = query ? `${baseUrl}?${query}` : baseUrl;
+
+        // Fetch content
+        const response = await fetch(url, { method: "GET" });
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        // Get text content
+        const content = await response.text();
+
+        // Replace content of target node
+        const targetNode = document.getElementById(element);
+        if (targetNode) {
+          targetNode.innerHTML = content;
+        } else {
+          console.error(`Element with id "${element}" not found.`);
+        }
+      } catch (err) {
+        console.error("AJAX Manager error:", err);
+      }
     }
 
     const reset = () => {
-      const date = new Date();
-      loadMonth(date.toISOString().substring(0, 10));
+      const args = { date: new Date().toISOString().substring(0, 10) };
+      ajaxManager("calendar-pane", "/ajax/calendar", args);
     };
 
     reset();
 
+    function loadMonth(date) {
+      ajaxManager("calendar-pane", "/ajax/calendar", { date: date });
+    }
     const loadWeek = (date) => {
-      fetch(`/ajax/calendar?date=${date}&viewType=WEEK`)
-        .then((response) => {
-          if (!response.ok) {
-            reset();
-          }
-
-          return response.text();
-        })
-        .then((html) => {
-          document.getElementById("calendar-pane").innerHTML = html;
-        })
-        .catch(() => reset());
+      ajaxManager("calendar-pane", "/ajax/calendar", {
+        date: date,
+        viewType: "WEEK",
+      });
     };
 
     const loadDay = (date) => {
-      fetch(`/ajax/calendar?date=${date}&viewType=DAY`)
-        .then((response) => {
-          if (!response.ok) {
-            reset();
-          }
-
-          return response.text();
-        })
-        .then((html) => {
-          document.getElementById("calendar-pane").innerHTML = html;
-        })
-        .catch(() => reset());
+      ajaxManager("calendar-pane", "/ajax/calendar", {
+        date: date,
+        viewType: "DAY",
+      });
     };
   </script>
 </html>

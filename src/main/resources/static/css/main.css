@@ -1,0 +1,9 @@
+.hover {
+  background-color: #ffffff;
+  font-weight: 600;
+}
+
+.hover:hover {
+  background-color: #f0f4ff;
+  font-weight: 600;
+}

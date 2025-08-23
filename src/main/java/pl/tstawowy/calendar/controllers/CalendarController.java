@@ -1,6 +1,7 @@
 package pl.tstawowy.calendar.controllers;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.tstawowy.calendar.entities.Calendar;
 import pl.tstawowy.calendar.entities.Day;
 import pl.tstawowy.calendar.entities.Month;
 import pl.tstawowy.calendar.entities.User;
@@ -44,6 +46,9 @@ public class CalendarController {
 
     @GetMapping("/")
     public String landingPage(Model model, @RequestParam(required = false) LocalDate date) {
+        User user = (User) model.getAttribute("user");
+        List<Calendar> calendars = calendarService.getCalendars(user);
+        model.addAttribute("calendars", calendars);
         return "main";
     }
 
